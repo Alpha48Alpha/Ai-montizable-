@@ -2,8 +2,8 @@
   "shoe": "AeroStride X1",
   "package": {
     "product_description": "AeroStride X1 \u2014 Running Shoe\n-----------------------------------------------\nBuilt from recycled mesh upper, carbon-fibre plate, the AeroStride X1 delivers\nperformance and style in equal measure.\n\nKey features:\n  \u2022 Energy-return foam midsole\n  \u2022 Carbon-fibre propulsion plate\n  \u2022 Recycled-mesh upper (30 % post-consumer material)\n  \u2022 Reflective heel tab for night runs\n  \u2022 True-to-size fit with wide-toe box\n\nAvailable colours: Midnight Black, Solar Orange, Ice White\nPrice: $149.99\n",
-    "tagline": "Step into the future \u2014 AeroStride X1.",
-    "ad_copy": "Introducing the AeroStride X1 \u2014 the ultimate running shoe engineered for those who refuse to slow down. Featuring energy-return foam midsole, every step feels like flying. Now available in Midnight Black and more.",
+    "tagline": "AeroStride X1 \u2014 Engineered for runners who refuse to slow down.",
+    "ad_copy": "Introducing the AeroStride X1 \u2014 the ultimate running shoe engineered for runners who refuse to slow down. Featuring energy-return foam midsole, every stride feels effortless. Now available in Midnight Black and more.",
     "call_to_action": "Shop AeroStride X1 today at $149.99 \u2192",
     "social_captions": [
       "\ud83d\udc5f Meet the AeroStride X1. Energy-return foam midsole. All day, every day. #NewRelease #Footwear",
@@ -21,6 +21,44 @@
       "best shoes 2025",
       "premium footwear"
     ],
-    "pricing_strategy": "Pricing tier : Mid-range\nRationale    : $149.99 supports strong quality-to-price ratio.\nSuggested promo : 10 % launch discount \u2192 $134.99"
+    "pricing_strategy": "Pricing tier : Mid-range\nRationale    : $149.99 supports strong quality-to-price ratio.\nSuggested promo : 10 % launch discount \u2192 $134.99",
+    "monetization_plan": {
+      "name": "AeroStride X1",
+      "margin_analysis": {
+        "retail_price_usd": 149.99,
+        "estimated_cogs_usd": 52.5,
+        "gross_margin_usd": 97.49,
+        "gross_margin_pct": 65.0
+      },
+      "affiliate": {
+        "monthly_clicks": 1000,
+        "conversion_rate_pct": 2.0,
+        "estimated_monthly_sales": 20,
+        "commission_rate_pct": 7.0,
+        "monthly_commission_usd": 209.99,
+        "annual_commission_usd": 2519.88
+      },
+      "upsell_recommendations": [
+        "Premium insoles                      +$18.00",
+        "Matching socks pack (3-pair)          +$12.00",
+        "Shoe care & cleaning kit              +$15.00"
+      ],
+      "bundle_deal": {
+        "description": "2-pair bundle \u2014 same model, different colour",
+        "bundle_price_usd": 269.98,
+        "saving_usd": 30.0
+      },
+      "subscription": {
+        "name": "Annual Shoe Club",
+        "price_usd": 509.97,
+        "includes": "4 pairs/year, priority new-release access, free shipping"
+      },
+      "platform_recommendations": [
+        "Shopify storefront \u2014 full margin retained, owned customer data",
+        "Amazon (FBM) \u2014 broad reach, established trust",
+        "Instagram / TikTok Shop \u2014 social commerce, impulse buys",
+        "Running / outdoor specialty retailers \u2014 offline distribution"
+      ]
+    }
   }
 }
