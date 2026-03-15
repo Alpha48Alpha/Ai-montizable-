@@ -1,0 +1,25 @@
+# KEYREGISTRY.toml — append-only key registry for Sanctum provenance signing
+#
+# Rules
+# -----
+#   • Add new keys with:  sanctum keys init --owner ORG:TEAM
+#   • Rotate keys with:   sanctum keys rotate --owner ORG:TEAM
+#   • Revoke keys with:   sanctum keys revoke --fingerprint ed25519:<...> --reason "..."
+#   • Set frozen = true only when exporting a sealed evidence package
+#   • Status transitions: active → retired → revoked  (no skipping)
+
+[meta]
+version = 1
+frozen  = false  # set true only when exporting a sealed evidence package
+
+# ─── key entries (managed by `sanctum keys` commands) ───────────────────────
+# Example:
+#
+# [[keys]]
+# fingerprint = "ed25519:XXXXXXXXXXXXXXXXXXXXXXXX"
+# status      = "active"   # active | retired | revoked
+# owner       = "ORG:TEAM"
+# created     = "2025-09-01T00:00:00Z"
+# retired     = ""
+# revoked     = ""
+# reason      = ""
