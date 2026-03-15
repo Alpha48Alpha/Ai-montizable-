@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI Trailer Studio — generate cinematic movie trailers with AI" />
+  <meta name="theme-color" content="#0d0d0d" />
+  <title>AI Trailer Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <span class="logo">🎬 AI Trailer Studio</span>
+      <nav class="nav-links">
+        <a href="#generate">Generate</a>
+        <a href="#how-it-works">How it works</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container hero-content">
+      <h1>Create Cinematic Trailers<br /><span class="accent">Powered by AI</span></h1>
+      <p class="subtitle">
+        Turn your idea into a fully-produced 60-second movie trailer in minutes —
+        AI-written script, voice-over, music &amp; edit decision list included.
+      </p>
+      <a href="#generate" class="btn btn-primary">Start Generating →</a>
+    </div>
+  </section>
+
+  <!-- ── Generator Form ────────────────────────────────────────────────── -->
+  <section id="generate" class="section">
+    <div class="container">
+      <h2 class="section-title">Generate Your Trailer</h2>
+
+      <form id="trailerForm" class="card form-card" novalidate>
+        <div class="field">
+          <label for="title">Movie / Project Title <span class="required">*</span></label>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            maxlength="200"
+            placeholder="e.g. Edge of Tomorrow"
+            required
+          />
+          <span class="field-error" id="titleError"></span>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="genre">Genre</label>
+            <select id="genre" name="genre">
+              <option value="drama">Drama</option>
+              <option value="action">Action</option>
+              <option value="horror">Horror</option>
+              <option value="comedy">Comedy</option>
+              <option value="romance">Romance</option>
+              <option value="scifi">Sci-Fi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="tone">Tone</label>
+            <select id="tone" name="tone">
+              <option value="cinematic">Cinematic</option>
+              <option value="intense">Intense</option>
+              <option value="emotional">Emotional</option>
+              <option value="quirky">Quirky</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="keyPoints">Key Story Points <span class="hint">(one per line)</span></label>
+          <textarea
+            id="keyPoints"
+            name="keyPoints"
+            rows="4"
+            placeholder="A soldier trapped in a time-loop&#10;Must defeat alien invaders&#10;Discovers the secret to breaking the cycle"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+          Generate Trailer
+        </button>
+      </form>
+
+      <!-- ── Progress ──────────────────────────────────────────────────── -->
+      <div id="progressSection" class="card progress-card hidden">
+        <h3 id="progressTitle">Processing…</h3>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        <p id="progressLabel" class="progress-label">Queued</p>
+
+        <div class="stage-list" id="stageList">
+          <div class="stage" data-stage="story">📝 Story generation</div>
+          <div class="stage" data-stage="scenes">🎥 Scene breakdown</div>
+          <div class="stage" data-stage="voice">🗣️ Voice-over</div>
+          <div class="stage" data-stage="music">🎵 Music selection</div>
+          <div class="stage" data-stage="editor">✂️ Final edit</div>
+        </div>
+      </div>
+
+      <!-- ── Result ─────────────────────────────────────────────────────── -->
+      <div id="resultSection" class="card result-card hidden">
+        <h3>🎉 Your Trailer Package is Ready!</h3>
+        <div id="narrativePreview" class="narrative-preview"></div>
+        <a id="downloadBtn" href="#" class="btn btn-success" download>
+          ⬇ Download Edit Decision List (JSON)
+        </a>
+      </div>
+
+      <!-- ── Error ──────────────────────────────────────────────────────── -->
+      <div id="errorSection" class="card error-card hidden">
+        <p id="errorMessage">An error occurred. Please try again.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How It Works ──────────────────────────────────────────────────── -->
+  <section id="how-it-works" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-icon">📝</span>
+          <h3>1. Story Engine</h3>
+          <p>An LLM crafts a four-beat narrative — hook, build, climax &amp; CTA — tailored to your genre and tone.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-icon">🎥</span>
+          <h3>2. Scene Engine</h3>
+          <p>The narrative is translated into a timed shot list with visual prompts ready for text-to-video models.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-icon">🗣️</span>
+          <h3>3. Voice Engine</h3>
+          <p>Each narrative beat is voiced using an AI TTS service and exported as a per-beat audio file.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-icon">🎵</span>
+          <h3>4. Music Engine</h3>
+          <p>Background music is selected or generated to match your genre — BPM, mood and mix levels included.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-icon">✂️</span>
+          <h3>5. Editor Engine</h3>
+          <p>Everything is assembled into an Edit Decision List (EDL) and an FFmpeg command ready to render.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>AI Trailer Studio — AI-monetizable content generation</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

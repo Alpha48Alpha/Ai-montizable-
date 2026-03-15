@@ -1,0 +1,32 @@
+# ── Build stage ──────────────────────────────────────────────────────────────
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package.json ./
+RUN npm install --omit=dev
+
+# ── Runtime stage ─────────────────────────────────────────────────────────────
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install only what the API needs at runtime
+COPY --from=builder /app/node_modules ./node_modules
+COPY package.json ./
+COPY shared/      ./shared/
+COPY api/         ./api/
+COPY workers/queue.js ./workers/queue.js
+
+# Create output directory (overridden by Docker volume in production)
+RUN mkdir -p /tmp/ai-trailer-studio/output
+
+ENV NODE_ENV=production \
+    PORT=3000
+
+EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:3000/health || exit 1
+
+CMD ["node", "api/server.js"]
