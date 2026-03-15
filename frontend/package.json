@@ -1,0 +1,13 @@
+{
+  "name": "ai-trailer-studio-frontend",
+  "version": "1.0.0",
+  "description": "Frontend PWA for AI Trailer Studio",
+  "private": true,
+  "scripts": {
+    "start": "npx serve -s public -l 8080",
+    "dev":   "npx serve -s public -l 8080"
+  },
+  "dependencies": {
+    "serve": "^14.2.3"
+  }
+}
