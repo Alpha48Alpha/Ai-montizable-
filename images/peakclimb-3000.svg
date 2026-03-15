@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" width="400" height="280">
+  <defs>
+    <linearGradient id="bootGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d4a1e;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#1a3010;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0e1f08;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="vibramGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a3a3a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#111111;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="midGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8faa70;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#607848;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="4" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="280" fill="#0a110a" rx="16"/>
+
+  <!-- Vibram outsole with grip lugs -->
+  <ellipse cx="200" cy="232" rx="148" ry="22" fill="url(#vibramGrad)" filter="url(#shadow)"/>
+  <!-- Vibram Megagrip lugs -->
+  <rect x="60" y="220" width="14" height="20" rx="3" fill="#222" opacity="0.8"/>
+  <rect x="82" y="218" width="14" height="22" rx="3" fill="#1a1a1a" opacity="0.8"/>
+  <rect x="104" y="217" width="12" height="23" rx="3" fill="#222" opacity="0.8"/>
+  <rect x="124" y="217" width="12" height="23" rx="3" fill="#1a1a1a" opacity="0.8"/>
+  <rect x="255" y="217" width="12" height="23" rx="3" fill="#1a1a1a" opacity="0.8"/>
+  <rect x="275" y="217" width="12" height="23" rx="3" fill="#222" opacity="0.8"/>
+  <rect x="295" y="218" width="14" height="22" rx="3" fill="#1a1a1a" opacity="0.8"/>
+  <rect x="318" y="220" width="14" height="20" rx="3" fill="#222" opacity="0.8"/>
+  <!-- Vibram logo area -->
+  <ellipse cx="200" cy="236" rx="30" ry="8" fill="#2a2a2a" opacity="0.8"/>
+  <text x="200" y="239" font-family="Arial" font-size="7" font-weight="700"
+        fill="#ff4400" text-anchor="middle" letter-spacing="1">VIBRAM</text>
+
+  <!-- Ankle support shank / midsole -->
+  <path d="M56 222 Q60 205 80 204 L320 204 Q342 205 346 222 Z" fill="url(#midGrad)" opacity="0.95"/>
+  <!-- Shank line (structural support) -->
+  <line x1="80" y1="213" x2="320" y2="213" stroke="#4a6030" stroke-width="2" opacity="0.6"/>
+  <line x1="120" y1="210" x2="280" y2="210" stroke="#6a8050" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Boot shaft (high ankle) -->
+  <path d="M248 60 Q268 58 288 68 Q310 82 315 110 L318 205 L248 205 Z"
+        fill="url(#bootGrad)" opacity="0.95"/>
+  <!-- Shaft stitching -->
+  <line x1="265" y1="68" x2="268" y2="204" stroke="#4a7030" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.5"/>
+
+  <!-- Main boot upper -->
+  <path d="M62 208 Q60 175 74 150 Q90 122 130 108 L240 98 Q265 96 286 108 L318 205 Z"
+        fill="url(#bootGrad)" filter="url(#shadow)"/>
+
+  <!-- Waterproof nubuck texture -->
+  <path d="M62 208 Q60 175 74 150 Q90 122 130 108 L240 98 Q265 96 286 108 L290 180 L68 180 Z"
+        fill="none" stroke="#3a6025" stroke-width="0.8" stroke-dasharray="3,8" opacity="0.3"/>
+
+  <!-- GORE-TEX lining indicator (inner tongue area) -->
+  <path d="M170 102 Q190 94 210 94 L213 165 Q196 168 178 165 Z"
+        fill="#1a3a12" opacity="0.9"/>
+  <!-- Gore-Tex label -->
+  <rect x="176" y="118" width="28" height="18" rx="3" fill="#2255aa" opacity="0.7"/>
+  <text x="190" y="129" font-family="Arial" font-size="7" font-weight="700"
+        fill="#ffffff" text-anchor="middle">GTX</text>
+
+  <!-- Boot seams (sealed seams detail) -->
+  <path d="M95 120 Q90 145 88 175" stroke="#4a7030" stroke-width="2" stroke-dasharray="5,3" opacity="0.5" fill="none"/>
+  <path d="M118 108 Q112 135 110 175" stroke="#4a7030" stroke-width="2" stroke-dasharray="5,3" opacity="0.5" fill="none"/>
+
+  <!-- Ankle support reinforcement -->
+  <path d="M250 110 Q278 100 295 112 L300 150 Q280 142 252 148 Z"
+        fill="#1a4010" opacity="0.6"/>
+  <path d="M255 115 Q278 106 292 116 L296 145 Q276 138 256 143" stroke="#5a8040" stroke-width="2" opacity="0.5" fill="none"/>
+
+  <!-- Lacing system (7-eyelet hiking boot) -->
+  <line x1="157" y1="108" x2="200" y2="108" stroke="#c8d8b0" stroke-width="2" opacity="0.85"/>
+  <line x1="152" y1="120" x2="200" y2="120" stroke="#c8d8b0" stroke-width="2" opacity="0.85"/>
+  <line x1="148" y1="132" x2="200" y2="132" stroke="#c8d8b0" stroke-width="2" opacity="0.85"/>
+  <line x1="146" y1="144" x2="200" y2="144" stroke="#c8d8b0" stroke-width="2" opacity="0.85"/>
+  <line x1="146" y1="156" x2="200" y2="156" stroke="#c8d8b0" stroke-width="2" opacity="0.85"/>
+  <!-- Hook eyelets (top 2 — speed hooks) -->
+  <path d="M148 168 L154 163 L160 168" stroke="#c8a830" stroke-width="2.5" fill="none" opacity="0.9"/>
+  <path d="M194 168 L200 163 L206 168" stroke="#c8a830" stroke-width="2.5" fill="none" opacity="0.9"/>
+  <!-- Eyelets -->
+  <circle cx="157" cy="108" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="200" cy="108" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="152" cy="120" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="200" cy="120" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="148" cy="132" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="200" cy="132" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="146" cy="144" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="200" cy="144" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="146" cy="156" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+  <circle cx="200" cy="156" r="4" fill="none" stroke="#a8b890" stroke-width="2"/>
+
+  <!-- Toe cap (protective) -->
+  <path d="M62 208 Q60 175 74 150 Q82 132 96 122 L112 130 Q96 142 90 162 Q85 182 84 208 Z"
+        fill="#0a1e06" opacity="0.75"/>
+
+  <!-- Removable ortholite footbed tab -->
+  <path d="M155 200 L220 200 L225 208 L150 208 Z" fill="#8faa70" opacity="0.4"/>
+
+  <!-- Label text -->
+  <text x="200" y="262" font-family="Arial, sans-serif" font-size="13" font-weight="700"
+        fill="#6aaa40" text-anchor="middle" letter-spacing="2">PEAKCLIMB 3000</text>
+  <text x="200" y="277" font-family="Arial, sans-serif" font-size="9" font-weight="400"
+        fill="#888888" text-anchor="middle" letter-spacing="1">HIKING BOOT · $199.99</text>
+</svg>
