@@ -3,3 +3,7 @@ __pycache__/
 *.py[cod]
 *.pyo
 .env
+
+# AI Lab training artifacts
+*.pt
+logs/
