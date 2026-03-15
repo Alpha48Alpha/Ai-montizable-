@@ -3,3 +3,8 @@ __pycache__/
 *.py[cod]
 *.pyo
 .env
+
+# RL Lab — generated training artefacts (not committed)
+runs/
+*.pt
+.pytest_cache/
