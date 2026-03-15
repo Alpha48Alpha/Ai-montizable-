@@ -3,3 +3,9 @@ __pycache__/
 *.py[cod]
 *.pyo
 .env
+
+# Alpha48Alpha AI Lab — generated runtime artifacts
+alpha48alpha_ai_lab/checkpoints/
+alpha48alpha_ai_lab/logs/
+alpha48alpha_ai_lab/plots/
+alpha48alpha_ai_lab/venv/
