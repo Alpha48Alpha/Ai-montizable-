@@ -95,10 +95,36 @@ Ai-montizable-/
 ├── README.md                          # This file — engine overview
 ├── movie_engine_config.md             # Full behavior rules & system configuration
 ├── movie_engine.py                    # Python production package generator
-└── templates/
-    ├── movie_production_package.md    # Complete 10-section production template
-    ├── character_sheet.md             # Per-character continuity template
-    └── scene_breakdown.md             # Per-scene storyboard & panel template
+├── train.py                           # RL Lab training entry point
+├── templates/
+│   ├── movie_production_package.md    # Complete 10-section production template
+│   ├── character_sheet.md             # Per-character continuity template
+│   └── scene_breakdown.md             # Per-scene storyboard & panel template
+├── rl_lab/                            # Production-grade RL Research Lab
+│   ├── envs/
+│   │   ├── base.py                    # BaseEnv abstract interface
+│   │   ├── grid_world.py              # 8×8 discrete navigation task
+│   │   └── continuous_world.py        # 2-D continuous navigation task
+│   ├── agents/
+│   │   ├── base.py                    # BaseAgent abstract interface
+│   │   ├── reinforce.py               # REINFORCE (policy gradient + baseline)
+│   │   └── dqn.py                     # Double DQN with experience replay
+│   ├── models/
+│   │   ├── mlp.py                     # MLP, PolicyMLP, ValueMLP
+│   │   └── cnn.py                     # CNN encoder (pixel observations)
+│   ├── utils/
+│   │   ├── replay_buffer.py           # Uniform experience replay buffer
+│   │   ├── checkpointing.py           # Save / load .pt checkpoints
+│   │   └── metrics.py                 # JSONL metrics logger
+│   ├── configs/
+│   │   ├── dqn_gridworld.json         # DQN × GridWorld config
+│   │   ├── reinforce_gridworld.json   # REINFORCE × GridWorld config
+│   │   └── reinforce_continuous.json  # REINFORCE × ContinuousWorld config
+│   ├── experiment.py                  # Experiment orchestrator
+│   ├── evaluate.py                    # Deterministic evaluation script
+│   └── visualize.py                   # Learning-curve & metric plots
+└── tests/
+    └── test_rl_lab.py                 # 43 pytest tests (all passing)
 ```
 
 ---
@@ -116,6 +142,8 @@ For anime-style requests, the engine additionally:
 
 ## Usage
 
+### Movie Engine
+
 1. Submit any movie/video/anime/cartoon/trailer request.
 2. The engine generates a full production package using the templates in `/templates/`.
 3. Character details from `character_sheet.md` are referenced in every scene to ensure continuity.
@@ -129,4 +157,65 @@ python movie_engine.py
 ```
 
 For detailed behavior rules, see [`movie_engine_config.md`](movie_engine_config.md).
+
+---
+
+## RL Research Lab
+
+A production-grade, modular PyTorch reinforcement-learning framework
+that lets agents learn robust goal-directed behavior from trial and error.
+
+### Quick Start
+
+```bash
+# Install dependencies
+pip install torch numpy matplotlib
+
+# Train DQN on GridWorld
+python train.py --config rl_lab/configs/dqn_gridworld.json
+
+# Train REINFORCE on GridWorld
+python train.py --config rl_lab/configs/reinforce_gridworld.json
+
+# Train REINFORCE on the 2-D continuous navigation task
+python train.py --config rl_lab/configs/reinforce_continuous.json
+
+# Evaluate the best saved checkpoint
+python -m rl_lab.evaluate --checkpoint runs/dqn_gridworld/checkpoint_best.pt --episodes 20
+
+# Generate learning-curve plots from a completed run
+python -m rl_lab.visualize --metrics runs/dqn_gridworld/metrics.jsonl
+
+# Resume training from a checkpoint
+python train.py --config rl_lab/configs/dqn_gridworld.json \
+                --resume runs/dqn_gridworld/checkpoint_latest.pt
+
+# Run the test suite
+python -m pytest tests/test_rl_lab.py -v
+```
+
+### Features
+
+| Feature | Details |
+|---------|---------|
+| **Environments** | GridWorld (discrete 8×8), ContinuousWorld (2-D nav) |
+| **Agents** | REINFORCE (policy gradient + value baseline), Double DQN |
+| **Neural nets** | MLP, PolicyMLP, ValueMLP, CNN encoder |
+| **Replay buffer** | Uniform circular buffer (extensible to PER) |
+| **Checkpointing** | Per-episode `.pt` saves + `checkpoint_latest` / `checkpoint_best` symlinks |
+| **Metrics logging** | JSONL log with rolling statistics |
+| **Evaluation** | Greedy deterministic evaluation with success-rate reporting |
+| **Visualization** | Learning curve, eval curve, per-metric plots (PNG) |
+| **Configs** | JSON experiment configs for reproducible runs |
+| **Tests** | 43 pytest tests covering all modules |
+
+### Extension Points
+
+The codebase is designed to grow into:
+- **World models** — attach a latent dynamics model; run imaginary rollouts
+- **Multimodal control** — swap the MLP backbone for the `CNNEncoder` to handle pixel observations
+- **Human-in-the-loop** — add a `human_step()` method on any env, or attach an RLHF reward model
+- **Prioritised replay** — subclass `ReplayBuffer` and override `sample()`
+- **PPO / A3C** — extend `REINFORCEAgent` with a rollout buffer and clipped surrogate loss
+- **Curriculum learning** — wrap any env in a `CurriculumWrapper` that adjusts difficulty over time
 
