@@ -20,12 +20,13 @@ movie-production packages containing:
 | 🎧 Audio plans | Music, SFX, and voice-over guidance per scene |
 | 🧩 Editing instructions | Assembly order, transitions, and export settings |
 | 📦 Full production packages | All of the above in one structured document |
+| 💰 Monetization plans | Revenue estimates, licensing, merchandise & crowdfunding strategy |
 
 ---
 
 ## Required Sections in Every Production Package
 
-Every generated package includes **all ten sections**:
+Every generated package includes **all ten sections** plus a monetization plan:
 
 1. **Title** — Working title and tagline
 2. **Runtime** — Total duration and per-scene time-codes
@@ -37,6 +38,7 @@ Every generated package includes **all ten sections**:
 8. **Audio Plan** — Music, SFX, and narration guidance
 9. **Assembly Plan** — Editing order, transitions, export settings
 10. **Deliverables** — Output file list with honest quality labels
+11. **Monetization Plan** — Ad revenue, subscriptions, licensing, merchandise & crowdfunding
 
 ---
 
@@ -57,6 +59,35 @@ full rendered animation.
 
 ---
 
+## Monetization Features
+
+### Movie / Animation
+
+`monetization.py` provides revenue estimates and strategy for every production:
+
+| Feature | Description |
+|---------|-------------|
+| **Ad Revenue (YouTube)** | CPM-based estimates at 10K / 100K / 1M views |
+| **Subscription (Patreon)** | Net monthly revenue at 100 / 500 / 1,000 subscribers |
+| **Content Licensing** | Music sync, character IP, and story option fee ranges |
+| **Merchandise** | Recommended items and platform suggestions (Redbubble, Gumroad, Shopify) |
+| **Crowdfunding** | Platform recommendations, target range, and reward tier examples |
+
+### Product / Shoe
+
+`shoe_demo.py` and `monetization.py` combine to produce:
+
+| Feature | Description |
+|---------|-------------|
+| **Margin Analysis** | Estimated COGS, gross margin ($ and %) |
+| **Affiliate Revenue** | Commission estimates at 1,000 clicks/month |
+| **Upsell Recommendations** | Add-on products with price suggestions |
+| **Bundle Deal** | 2-pair bundle pricing with savings |
+| **Annual Subscription** | Shoe club membership pricing and perks |
+| **Platform Recommendations** | Shopify, Amazon, Instagram/TikTok Shop, specialty retail |
+
+---
+
 ## Example Prompts That Trigger the Full Pipeline
 
 Users can say things like:
@@ -68,7 +99,8 @@ Users can say things like:
 - *"Produce a music video concept."*
 - *"Build a 2-minute explainer animation."*
 
-All of the above automatically produce the complete 10-section package.
+All of the above automatically produce the complete 10-section package plus
+a full monetization plan.
 
 ---
 
@@ -95,6 +127,8 @@ Ai-montizable-/
 ├── README.md                          # This file — engine overview
 ├── movie_engine_config.md             # Full behavior rules & system configuration
 ├── movie_engine.py                    # Python production package generator
+├── shoe_demo.py                       # AI-powered shoe product package generator
+├── monetization.py                    # Revenue & monetization strategy engine
 └── templates/
     ├── movie_production_package.md    # Complete 10-section production template
     ├── character_sheet.md             # Per-character continuity template
@@ -121,6 +155,7 @@ For anime-style requests, the engine additionally:
 3. Character details from `character_sheet.md` are referenced in every scene to ensure continuity.
 4. Each scene uses `scene_breakdown.md` format with visual prompts and timecodes.
 5. The final package follows `movie_production_package.md` — all 10 sections complete.
+6. A monetization plan is automatically appended with revenue estimates and strategy.
 
 To generate a sample package programmatically:
 
@@ -128,5 +163,12 @@ To generate a sample package programmatically:
 python movie_engine.py
 ```
 
+To generate shoe product packages with monetization analysis:
+
+```bash
+python shoe_demo.py
+```
+
 For detailed behavior rules, see [`movie_engine_config.md`](movie_engine_config.md).
+For the monetization engine API, see [`monetization.py`](monetization.py).
 
