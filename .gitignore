@@ -3,3 +3,10 @@ __pycache__/
 *.py[cod]
 *.pyo
 .env
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.pnpm-store/
+pnpm-lock.yaml
