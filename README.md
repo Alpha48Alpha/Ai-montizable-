@@ -94,7 +94,9 @@ The engine **never** returns an empty or unhelpful response for a production req
 Ai-montizable-/
 ├── README.md                          # This file — engine overview
 ├── movie_engine_config.md             # Full behavior rules & system configuration
-├── movie_engine.py                    # Python production package generator
+├── movie_engine.py                    # Movie production package generator
+├── shoe_demo.py                       # AI-powered shoe product package generator
+├── run_all.py                         # Runs all generators in sequence
 └── templates/
     ├── movie_production_package.md    # Complete 10-section production template
     ├── character_sheet.md             # Per-character continuity template
@@ -122,10 +124,22 @@ For anime-style requests, the engine additionally:
 4. Each scene uses `scene_breakdown.md` format with visual prompts and timecodes.
 5. The final package follows `movie_production_package.md` — all 10 sections complete.
 
-To generate a sample package programmatically:
+To run **all scripts at once**:
+
+```bash
+python run_all.py
+```
+
+To generate only the movie production package:
 
 ```bash
 python movie_engine.py
+```
+
+To generate only the shoe product package:
+
+```bash
+python shoe_demo.py
 ```
 
 For detailed behavior rules, see [`movie_engine_config.md`](movie_engine_config.md).
