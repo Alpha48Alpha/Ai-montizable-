@@ -1,43 +1,86 @@
 """
 simple_world.py — Alpha48Alpha AI Lab
 ======================================
-A minimal grid-world environment compatible with the OpenAI Gym interface.
+A 2-D grid world environment compatible with the OpenAI Gym-style interface.
 
-The agent starts at position 0 on a 1-D grid and must reach the goal at
-position (grid_size - 1) within a fixed number of steps.
+The agent starts at the top-left cell (0, 0) and must navigate to the
+bottom-right goal cell (rows-1, cols-1) while avoiding obstacle cells.
 
-Observation : current position normalised to [0, 1]  (shape: [1])
-Action space: 0 = move left, 1 = move right           (discrete, 2 actions)
-Reward      : +1.0 when the goal is reached, -0.01 per step (small time penalty)
-Episode ends: when the goal is reached OR max_steps is exceeded
+Observation : normalised (row, col) of the agent  → shape [2],  values in [0, 1]
+Action space: 0 = up, 1 = down, 2 = left, 3 = right              (discrete, 4 actions)
+Reward      : +1.0  goal reached
+              -0.5  attempted move into an obstacle (agent stays put)
+              -0.01 every other step (time penalty encouraging efficiency)
+Episode ends: goal reached  OR  max_steps exceeded
 """
+
+import random
+
+
+# Map action index → (row_delta, col_delta)
+_ACTION_DELTAS = {
+    0: (-1,  0),   # up
+    1: ( 1,  0),   # down
+    2: ( 0, -1),   # left
+    3: ( 0,  1),   # right
+}
+
+# Human-readable action labels used by render helpers
+ACTION_LABELS = {0: "U", 1: "D", 2: "L", 3: "R"}
 
 
 class SimpleWorld:
     """
-    A 1-D grid world with a single agent and a single goal cell.
+    A 2-D grid world with obstacles, a single agent, and a single goal cell.
 
     Parameters
     ----------
-    grid_size : int
-        Total number of cells.  The goal is always the last cell.
+    rows : int
+        Number of rows in the grid (must be ≥ 2).
+    cols : int
+        Number of columns in the grid (must be ≥ 2).
     max_steps : int
         Maximum number of steps before the episode is truncated.
+    obstacle_density : float
+        Fraction of non-start, non-goal cells to fill with obstacles.
+        Clamped to [0.0, 0.8] to keep the grid solvable.
+    seed : int or None
+        Optional random seed for reproducible obstacle placement.
     """
 
     # Number of discrete actions available to the agent
-    N_ACTIONS: int = 2
+    N_ACTIONS: int = 4
     # Dimensionality of the observation vector returned to the agent
-    OBS_DIM: int = 1
+    OBS_DIM: int = 2
 
-    def __init__(self, grid_size: int = 10, max_steps: int = 100) -> None:
-        if grid_size < 2:
-            raise ValueError("grid_size must be at least 2.")
-        self.grid_size = grid_size
+    def __init__(
+        self,
+        rows: int = 6,
+        cols: int = 6,
+        max_steps: int = 200,
+        obstacle_density: float = 0.15,
+        seed: int | None = None,
+    ) -> None:
+        if rows < 2 or cols < 2:
+            raise ValueError("rows and cols must each be at least 2.")
+        if not 0.0 <= obstacle_density <= 0.8:
+            raise ValueError("obstacle_density must be between 0.0 and 0.8.")
+
+        self.rows = rows
+        self.cols = cols
         self.max_steps = max_steps
+        self.obstacle_density = obstacle_density
 
-        # These are set (or reset) by reset()
-        self._position: int = 0
+        # Fixed start and goal positions
+        self._start = (0, 0)
+        self._goal = (rows - 1, cols - 1)
+
+        # Build the static obstacle layout once (reused across episodes)
+        self._rng = random.Random(seed)
+        self._obstacles: set[tuple[int, int]] = self._place_obstacles()
+
+        # Dynamic state — initialised by reset()
+        self._agent: tuple[int, int] = self._start
         self._steps: int = 0
 
     # ------------------------------------------------------------------
@@ -46,14 +89,14 @@ class SimpleWorld:
 
     def reset(self) -> list:
         """
-        Reset the environment to the initial state.
+        Reset the agent to the start cell.
 
         Returns
         -------
         observation : list[float]
-            Normalised agent position [pos / (grid_size - 1)].
+            Normalised [row, col] of the agent, each in [0, 1].
         """
-        self._position = 0
+        self._agent = self._start
         self._steps = 0
         return self._observe()
 
@@ -61,66 +104,138 @@ class SimpleWorld:
         """
         Apply *action* and advance the world by one time-step.
 
+        If the intended move would leave the grid boundary, the agent
+        stays in place (treated as an invalid move, no obstacle penalty).
+        If the intended move leads into an obstacle, the agent stays put
+        and receives the obstacle penalty.
+
         Parameters
         ----------
         action : int
-            0 → move left (clamped at 0), 1 → move right (clamped at grid_size - 1).
+            One of: 0 (up), 1 (down), 2 (left), 3 (right).
 
         Returns
         -------
         observation : list[float]
-            New normalised position.
+            New normalised [row, col].
         reward : float
-            +1.0 at the goal, -0.01 otherwise.
+            +1.0 at goal, -0.5 for obstacle collision, -0.01 otherwise.
         done : bool
-            True when the episode is over (goal reached or max_steps hit).
+            True when the episode is over.
         info : dict
-            Auxiliary diagnostics (step count, raw position).
+            Auxiliary diagnostics.
         """
-        if action not in (0, 1):
-            raise ValueError(f"Invalid action {action}. Expected 0 or 1.")
+        if action not in _ACTION_DELTAS:
+            raise ValueError(
+                f"Invalid action {action}. Expected one of {list(_ACTION_DELTAS)}."
+            )
 
-        # Move agent; clamp to valid grid range
-        if action == 1:
-            self._position = min(self._position + 1, self.grid_size - 1)
+        dr, dc = _ACTION_DELTAS[action]
+        new_row = self._agent[0] + dr
+        new_col = self._agent[1] + dc
+
+        # Determine reward and whether the agent actually moves
+        hit_obstacle = False
+        if not self._in_bounds(new_row, new_col):
+            # Wall — stay put, small time penalty (not an obstacle hit)
+            reward = -0.01
+        elif (new_row, new_col) in self._obstacles:
+            # Obstacle — stay put, heavier penalty
+            hit_obstacle = True
+            reward = -0.5
         else:
-            self._position = max(self._position - 1, 0)
+            # Valid move — update position
+            self._agent = (new_row, new_col)
+            reward = -0.01
 
         self._steps += 1
 
         # Check terminal conditions
-        goal_reached = self._position == self.grid_size - 1
+        goal_reached = self._agent == self._goal
         timeout = self._steps >= self.max_steps
 
-        reward = 1.0 if goal_reached else -0.01
+        if goal_reached:
+            reward = 1.0
+
         done = goal_reached or timeout
 
         info = {
             "steps": self._steps,
-            "position": self._position,
+            "position": self._agent,
             "goal_reached": goal_reached,
+            "hit_obstacle": hit_obstacle,
         }
 
         return self._observe(), reward, done, info
 
     def render(self) -> str:
         """
-        Return a simple ASCII representation of the current grid state.
+        Return a multi-line ASCII representation of the current grid state.
+
+        Legend
+        ------
+        A  agent position
+        G  goal  (or *  if agent is on the goal)
+        #  obstacle
+        .  empty cell
 
         Returns
         -------
         str
-            A string like ``|_A_____G|`` where A = agent, G = goal.
+            A grid string with a top/bottom border.
         """
-        cells = ["_"] * self.grid_size
-        cells[self.grid_size - 1] = "G"  # goal marker (may be overwritten)
-        cells[self._position] = "A"       # agent marker
-        return "|" + "".join(cells) + "|"
+        lines = ["+" + "-" * self.cols + "+"]
+        for r in range(self.rows):
+            row_str = "|"
+            for c in range(self.cols):
+                cell = (r, c)
+                if cell == self._agent and cell == self._goal:
+                    row_str += "*"   # agent reached goal
+                elif cell == self._agent:
+                    row_str += "A"
+                elif cell == self._goal:
+                    row_str += "G"
+                elif cell in self._obstacles:
+                    row_str += "#"
+                else:
+                    row_str += "."
+            row_str += "|"
+            lines.append(row_str)
+        lines.append("+" + "-" * self.cols + "+")
+        return "\n".join(lines)
 
     # ------------------------------------------------------------------
     # Private helpers
     # ------------------------------------------------------------------
 
+    def _in_bounds(self, row: int, col: int) -> bool:
+        """Return True if (row, col) is a valid grid cell."""
+        return 0 <= row < self.rows and 0 <= col < self.cols
+
+    def _place_obstacles(self) -> set[tuple[int, int]]:
+        """
+        Randomly select obstacle cells.
+
+        Start and goal cells are always kept clear.  The total number of
+        obstacle cells is floor(obstacle_density * (rows * cols - 2)).
+        """
+        # All cells except start and goal are candidates
+        candidates = [
+            (r, c)
+            for r in range(self.rows)
+            for c in range(self.cols)
+            if (r, c) not in (self._start, self._goal)
+        ]
+        n_obstacles = int(self.obstacle_density * len(candidates))
+        chosen = self._rng.sample(candidates, n_obstacles)
+        return set(chosen)
+
     def _observe(self) -> list:
-        """Return the normalised position as a single-element list."""
-        return [self._position / (self.grid_size - 1)]
+        """
+        Return the normalised agent position.
+
+        Each coordinate is divided by (dimension - 1) so values lie in [0, 1].
+        """
+        norm_row = self._agent[0] / (self.rows - 1)
+        norm_col = self._agent[1] / (self.cols - 1)
+        return [norm_row, norm_col]
