@@ -3,3 +3,18 @@ __pycache__/
 *.py[cod]
 *.pyo
 .env
+
+# Virtual environment
+venv/
+.venv/
+env/
+.env/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
