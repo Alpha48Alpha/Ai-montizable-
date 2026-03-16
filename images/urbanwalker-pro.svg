@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <defs>
+    <linearGradient id="leatherGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5E3C;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#6B3F22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4a2a10;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="soleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2a2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#111111;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="foamGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#c4a882;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a08060;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="4" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="260" fill="#1a1208" rx="16"/>
+
+  <!-- Rubber outsole -->
+  <ellipse cx="200" cy="212" rx="152" ry="20" fill="url(#soleGrad)" filter="url(#shadow)"/>
+  <!-- Slip-resistant tread pattern -->
+  <rect x="62" y="205" width="12" height="14" rx="2" fill="#222" opacity="0.7"/>
+  <rect x="82" y="203" width="12" height="16" rx="2" fill="#222" opacity="0.7"/>
+  <rect x="102" y="203" width="10" height="16" rx="2" fill="#333" opacity="0.7"/>
+  <rect x="280" y="203" width="10" height="16" rx="2" fill="#333" opacity="0.7"/>
+  <rect x="298" y="203" width="12" height="16" rx="2" fill="#222" opacity="0.7"/>
+  <rect x="318" y="205" width="12" height="14" rx="2" fill="#222" opacity="0.7"/>
+  <!-- Heel tread circles -->
+  <circle cx="95" cy="210" r="4" fill="#1a1a1a" opacity="0.8"/>
+  <circle cx="110" cy="213" r="3" fill="#1a1a1a" opacity="0.8"/>
+  <circle cx="290" cy="213" r="3" fill="#1a1a1a" opacity="0.8"/>
+  <circle cx="305" cy="210" r="4" fill="#1a1a1a" opacity="0.8"/>
+
+  <!-- Memory foam midsole -->
+  <path d="M58 202 Q62 188 82 187 L318 187 Q340 187 344 202 Z" fill="url(#foamGrad)" opacity="0.95"/>
+  <!-- Foam texture -->
+  <line x1="80" y1="194" x2="320" y2="194" stroke="#b09070" stroke-width="1" opacity="0.3"/>
+  <line x1="78" y1="198" x2="322" y2="198" stroke="#b09070" stroke-width="1" opacity="0.3"/>
+
+  <!-- Main leather upper -->
+  <path d="M62 190 Q60 160 74 138 Q92 112 132 100 L232 92 Q282 90 308 106 Q328 120 332 152 L335 190 Z"
+        fill="url(#leatherGrad)" filter="url(#shadow)"/>
+
+  <!-- Leather grain texture (subtle hatching) -->
+  <path d="M62 190 Q60 160 74 138 Q92 112 132 100 L232 92 Q282 90 308 106 Q328 120 332 152 L335 190 Z"
+        fill="none" stroke="#a07050" stroke-width="0.6" stroke-dasharray="2,6" opacity="0.25"/>
+
+  <!-- Leather highlight (top sheen) -->
+  <path d="M90 108 Q140 92 220 88 Q270 86 305 100 L302 112 Q270 100 220 100 Q140 104 93 120 Z"
+        fill="#c47a40" opacity="0.35"/>
+
+  <!-- Padded collar at ankle -->
+  <path d="M295 108 Q326 120 330 152 L332 190 L298 190 L298 162 Q298 130 295 108 Z"
+        fill="#5a3015" opacity="0.6"/>
+  <path d="M297 150 Q310 148 330 155 L330 175 Q310 170 297 172 Z"
+        fill="#c4a882" opacity="0.4"/>
+  <!-- Collar padding stitching -->
+  <path d="M300 155 Q314 152 328 158" stroke="#e8d5b0" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6" fill="none"/>
+  <path d="M300 163 Q315 160 329 166" stroke="#e8d5b0" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6" fill="none"/>
+
+  <!-- Toe cap -->
+  <path d="M62 190 Q60 160 74 138 Q84 120 100 110 L115 118 Q98 130 92 148 Q87 168 86 190 Z"
+        fill="#4a2808" opacity="0.7"/>
+  <!-- Toe cap highlight -->
+  <path d="M74 138 Q84 120 100 110 L110 116 Q94 128 88 148" stroke="#b07040" stroke-width="2" opacity="0.4" fill="none"/>
+
+  <!-- Oxford lacing (classic W-lacing) -->
+  <line x1="158" y1="100" x2="202" y2="100" stroke="#c4a882" stroke-width="1.8" opacity="0.8"/>
+  <line x1="153" y1="112" x2="202" y2="112" stroke="#c4a882" stroke-width="1.8" opacity="0.8"/>
+  <line x1="150" y1="124" x2="202" y2="124" stroke="#c4a882" stroke-width="1.8" opacity="0.8"/>
+  <line x1="150" y1="136" x2="202" y2="136" stroke="#c4a882" stroke-width="1.8" opacity="0.8"/>
+  <!-- Eyelets -->
+  <circle cx="158" cy="100" r="3.5" fill="none" stroke="#d4a860" stroke-width="1.5"/>
+  <circle cx="202" cy="100" r="3.5" fill="none" stroke="#d4a860" stroke-width="1.5"/>
+  <circle cx="153" cy="112" r="3.5" fill="none" stroke="#d4a860" stroke-width="1.5"/>
+  <circle cx="202" cy="112" r="3.5" fill="none" stroke="#d4a860" stroke-width="1.5"/>
+  <circle cx="150" cy="124" r="3.5" fill="none" stroke="#d4a860" stroke-width="1.5"/>
+  <circle cx="202" cy="124" r="3.5" fill="none" stroke="#d4a860" stroke-width="1.5"/>
+  <circle cx="150" cy="136" r="3.5" fill="none" stroke="#d4a860" stroke-width="1.5"/>
+  <circle cx="202" cy="136" r="3.5" fill="none" stroke="#d4a860" stroke-width="1.5"/>
+
+  <!-- Tongue -->
+  <path d="M163 98 Q180 90 200 90 L203 148 Q188 152 172 148 Z"
+        fill="#7a4520" opacity="0.85"/>
+  <!-- Tongue label -->
+  <rect x="176" y="112" width="20" height="24" rx="3" fill="#c4a882" opacity="0.5"/>
+  <text x="186" y="126" font-family="Arial" font-size="7" font-weight="700"
+        fill="#4a2808" text-anchor="middle">UW</text>
+
+  <!-- Label text -->
+  <text x="200" y="242" font-family="Georgia, serif" font-size="13" font-weight="700"
+        fill="#c4a060" text-anchor="middle" letter-spacing="2">URBANWALKER PRO</text>
+  <text x="200" y="257" font-family="Arial, sans-serif" font-size="9" font-weight="400"
+        fill="#888888" text-anchor="middle" letter-spacing="1">LIFESTYLE SHOE · $119.99</text>
+</svg>

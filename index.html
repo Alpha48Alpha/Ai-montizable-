@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Monetizable — Shoe Product Review</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+      border-bottom: 1px solid #30363d;
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    header .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    header .brand .icon {
+      font-size: 32px;
+      line-height: 1;
+    }
+    header .brand h1 {
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #58a6ff, #bc8cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header .brand p {
+      font-size: 12px;
+      color: #8b949e;
+      margin-top: 2px;
+    }
+    header .badge {
+      background: #238636;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Main layout ─────────────────────────────────────────── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    /* ── Product grid ────────────────────────────────────────── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      margin-bottom: 60px;
+    }
+
+    .product-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: #58a6ff;
+    }
+
+    .card-image {
+      background: #0d1117;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 12px;
+      border-bottom: 1px solid #21262d;
+    }
+    .card-image img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+    }
+
+    .card-body { padding: 20px 22px 24px; }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    .card-header h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #e6edf3;
+    }
+    .card-header .price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #3fb950;
+      white-space: nowrap;
+    }
+
+    .shoe-type {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      color: #58a6ff;
+      background: rgba(88, 166, 255, 0.1);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      border-radius: 20px;
+      padding: 3px 10px;
+      margin-bottom: 14px;
+    }
+
+    /* ── Colour swatches ──────────────────────────────────────── */
+    .colours {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .colours span.label {
+      font-size: 11px;
+      color: #8b949e;
+      font-weight: 500;
+    }
+    .swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #30363d;
+      cursor: default;
+      transition: border-color 0.15s;
+    }
+    .swatch:hover { border-color: #e6edf3; }
+    .swatch[title]:hover::after {
+      content: attr(title);
+      position: absolute;
+      background: #1c2128;
+      color: #e6edf3;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* ── Tabs ─────────────────────────────────────────────────── */
+    .tabs { margin-top: 6px; }
+    .tab-buttons {
+      display: flex;
+      gap: 2px;
+      border-bottom: 1px solid #21262d;
+      margin-bottom: 14px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: #8b949e;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 7px 12px 8px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      margin-bottom: -1px;
+    }
+    .tab-btn:hover { color: #e6edf3; }
+    .tab-btn.active {
+      color: #58a6ff;
+      border-bottom-color: #58a6ff;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Features list ────────────────────────────────────────── */
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .features-list li {
+      font-size: 12.5px;
+      color: #c9d1d9;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.45;
+    }
+    .features-list li::before {
+      content: "✦";
+      color: #58a6ff;
+      font-size: 10px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Marketing copy ───────────────────────────────────────── */
+    .tagline {
+      font-size: 13px;
+      font-style: italic;
+      color: #bc8cff;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    .ad-copy {
+      font-size: 12px;
+      color: #c9d1d9;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: #238636;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: default;
+    }
+
+    /* ── Social captions ──────────────────────────────────────── */
+    .caption-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .caption-item {
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #c9d1d9;
+      line-height: 1.5;
+    }
+
+    /* ── SEO keywords ─────────────────────────────────────────── */
+    .keyword-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .keyword {
+      background: #1c2128;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      font-size: 11px;
+      color: #8b949e;
+      padding: 3px 10px;
+    }
+
+    /* ── Pricing ──────────────────────────────────────────────── */
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .pricing-table th, .pricing-table td {
+      padding: 7px 10px;
+      text-align: left;
+      border-bottom: 1px solid #21262d;
+    }
+    .pricing-table th {
+      color: #8b949e;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pricing-table td { color: #c9d1d9; }
+    .tier-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .tier-value    { background: rgba(63,185,80,0.15);  color: #3fb950; border: 1px solid rgba(63,185,80,0.3); }
+    .tier-midrange { background: rgba(88,166,255,0.15); color: #58a6ff; border: 1px solid rgba(88,166,255,0.3); }
+    .tier-premium  { background: rgba(188,140,255,0.15);color: #bc8cff; border: 1px solid rgba(188,140,255,0.3); }
+    .promo-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #f0883e;
+      background: rgba(240,136,62,0.08);
+      border: 1px solid rgba(240,136,62,0.25);
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid #21262d;
+      padding: 24px 40px;
+      text-align: center;
+      color: #484f58;
+      font-size: 12px;
+    }
+    footer a { color: #58a6ff; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="icon">🤖</span>
+    <div>
+      <h1>AI-Monetizable</h1>
+      <p>Shoe Product Review — AI-Generated Content Packages</p>
+    </div>
+  </div>
+  <span class="badge">Review Ready</span>
+</header>
+
+<main>
+  <p class="section-title">Product Collection · 3 Models</p>
+
+  <div class="product-grid" id="productGrid">
+    <!-- Cards are injected by JS from the PRODUCTS data below -->
+  </div>
+</main>
+
+<footer>
+  Generated by <a href="shoe_demo.py">shoe_demo.py</a> ·
+  Images in <a href="images/">images/</a> ·
+  <a href="https://github.com/Alpha48Alpha/Ai-montizable-">GitHub</a>
+</footer>
+
+<script>
+const PRODUCTS = [
+  {
+    id: "aerostride-x1",
+    name: "AeroStride X1",
+    type: "Running Shoe",
+    material: "recycled mesh upper, carbon-fibre plate",
+    colours: [
+      { name: "Midnight Black", hex: "#1a1a2e" },
+      { name: "Solar Orange",   hex: "#ff6b35" },
+      { name: "Ice White",      hex: "#eaeaea" }
+    ],
+    price: 149.99,
+    features: [
+      "Energy-return foam midsole",
+      "Carbon-fibre propulsion plate",
+      "Recycled-mesh upper (30% post-consumer material)",
+      "Reflective heel tab for night runs",
+      "True-to-size fit with wide-toe box"
+    ],
+    tagline: "Outrun your limits — AeroStride X1.",
+    adCopy: "The AeroStride X1 was engineered for one purpose: make you faster. A carbon-fibre propulsion plate and energy-return foam midsole store power with every strike and release it at toe-off, giving you a measurable edge on race day and training runs alike. Built from recycled-mesh upper, it's performance you can feel — and a planet you can feel good about. Available now in Midnight Black, Solar Orange, and Ice White.",
+    cta: "Shop AeroStride X1 today at $149.99 →",
+    captions: [
+      "👟 Meet the AeroStride X1. Energy-return foam midsole. All day, every day. #NewRelease #Footwear",
+      "🔥 Fresh drop alert! AeroStride X1 in Midnight Black — limited stock. Grab yours for $149.99. #ShoeOfTheDay",
+      "💡 Why settle for ordinary? The AeroStride X1 redefines what a running shoe can be. #Innovation #Style"
+    ],
+    keywords: ["aerostride x1","running shoe","recycled mesh upper","midnight black","solar orange","ice white","buy shoes online","best shoes 2025","premium footwear"],
+    pricingTier: "Mid-range",
+    pricingRationale: "$149.99 supports strong quality-to-price ratio.",
+    promo: "10% launch discount → $134.99"
+  },
+  {
+    id: "urbanwalker-pro",
+    name: "UrbanWalker Pro",
+    type: "Lifestyle / Casual Shoe",
+    material: "full-grain leather upper, rubber outsole",
+    colours: [
+      { name: "Caramel Brown", hex: "#8B5E3C" },
+      { name: "Slate Grey",    hex: "#708090" },
+      { name: "Cream",         hex: "#f5f0e8" }
+    ],
+    price: 119.99,
+    features: [
+      "Cushioned memory-foam insole",
+      "Slip-resistant rubber outsole",
+      "Full-grain leather upper — ages beautifully",
+      "Padded collar for all-day comfort",
+      "Available in half sizes"
+    ],
+    tagline: "City streets never looked this good — UrbanWalker Pro.",
+    adCopy: "The UrbanWalker Pro is built for the long haul of everyday life. Full-grain leather upper that only gets better with age, a cushioned memory-foam insole that keeps you comfortable from morning commute to after-work drinks, and a slip-resistant outsole that handles everything the city throws at you. Refined, versatile, and ready for whatever comes next — now in Caramel Brown, Slate Grey, and Cream.",
+    cta: "Shop UrbanWalker Pro today at $119.99 →",
+    captions: [
+      "👟 Meet the UrbanWalker Pro. Cushioned memory-foam insole. All day, every day. #NewRelease #Footwear",
+      "🔥 Fresh drop alert! UrbanWalker Pro in Caramel Brown — limited stock. Grab yours for $119.99. #ShoeOfTheDay",
+      "💡 Why settle for ordinary? The UrbanWalker Pro redefines what a lifestyle / casual shoe can be. #Innovation #Style"
+    ],
+    keywords: ["urbanwalker pro","lifestyle / casual shoe","full-grain leather upper","caramel brown","slate grey","cream","buy shoes online","best shoes 2025","premium footwear"],
+    pricingTier: "Mid-range",
+    pricingRationale: "$119.99 supports strong quality-to-price ratio.",
+    promo: "10% launch discount → $107.99"
+  },
+  {
+    id: "peakclimb-3000",
+    name: "PeakClimb 3000",
+    type: "Hiking Boot",
+    material: "waterproof nubuck leather, Vibram outsole",
+    colours: [
+      { name: "Forest Green", hex: "#2d4a1e" },
+      { name: "Desert Tan",   hex: "#c4a265" },
+      { name: "Obsidian",     hex: "#1a1a1a" }
+    ],
+    price: 199.99,
+    features: [
+      "Waterproof nubuck leather with sealed seams",
+      "Vibram Megagrip outsole for technical terrain",
+      "Ankle-support shank",
+      "Removable ortholite footbed",
+      "GORE-TEX lining"
+    ],
+    tagline: "Conquer every summit — PeakClimb 3000.",
+    adCopy: "When the trail gets technical, the PeakClimb 3000 earns its name. Waterproof nubuck leather with sealed seams keeps moisture out on wet approaches, while the Vibram Megagrip outsole bites into loose rock and wet roots with authority. GORE-TEX lining ensures breathability without sacrificing weatherproofing, and the ankle-support shank keeps your footing confident on every ascent and descent. Your summit is waiting.",
+    cta: "Shop PeakClimb 3000 today at $199.99 →",
+    captions: [
+      "👟 Meet the PeakClimb 3000. Waterproof nubuck leather with sealed seams. All day, every day. #NewRelease #Footwear",
+      "🔥 Fresh drop alert! PeakClimb 3000 in Forest Green — limited stock. Grab yours for $199.99. #ShoeOfTheDay",
+      "💡 Why settle for ordinary? The PeakClimb 3000 redefines what a hiking boot can be. #Innovation #Style"
+    ],
+    keywords: ["peakclimb 3000","hiking boot","waterproof nubuck leather","forest green","desert tan","obsidian","buy shoes online","best shoes 2025","premium footwear"],
+    pricingTier: "Premium",
+    pricingRationale: "$199.99 supports aspirational branding with margin headroom.",
+    promo: "10% launch discount → $179.99"
+  }
+];
+
+const TIER_CLASS = { "Value": "tier-value", "Mid-range": "tier-midrange", "Premium": "tier-premium" };
+
+function buildCard(p) {
+  const swatches = p.colours.map(c =>
+    `<div class="swatch" title="${c.name}" style="background:${c.hex};${c.hex === '#eaeaea' || c.hex === '#f5f0e8' ? 'border-color:#8b949e;' : ''}"></div>`
+  ).join("");
+
+  const featureItems = p.features.map(f => `<li>${f}</li>`).join("");
+  const captionItems = p.captions.map(c => `<div class="caption-item">${c}</div>`).join("");
+  const keywords     = p.keywords.map(k => `<span class="keyword">${k}</span>`).join("");
+  const tierClass    = TIER_CLASS[p.pricingTier] || "tier-midrange";
+  const uid          = p.id;
+
+  return `
+<div class="product-card">
+  <div class="card-image">
+    <img src="images/${uid}.svg" alt="${p.name}" loading="lazy" />
+  </div>
+  <div class="card-body">
+    <div class="card-header">
+      <h2>${p.name}</h2>
+      <span class="price">$${p.price.toFixed(2)}</span>
+    </div>
+    <span class="shoe-type">${p.type}</span>
+    <div class="colours">
+      <span class="label">Colours:</span>
+      ${swatches}
+    </div>
+
+    <div class="tabs">
+      <div class="tab-buttons" role="tablist">
+        <button class="tab-btn active" role="tab" onclick="switchTab(this,'${uid}-features')">Features</button>
+        <button class="tab-btn" role="tab" onclick="switchTab(this,'${uid}-marketing')">Marketing</button>
+        <button class="tab-btn" role="tab" onclick="switchTab(this,'${uid}-social')">Social</button>
+        <button class="tab-btn" role="tab" onclick="switchTab(this,'${uid}-seo')">SEO</button>
+        <button class="tab-btn" role="tab" onclick="switchTab(this,'${uid}-pricing')">Pricing</button>
+      </div>
+
+      <div id="${uid}-features" class="tab-panel active">
+        <ul class="features-list">${featureItems}</ul>
+      </div>
+      <div id="${uid}-marketing" class="tab-panel">
+        <p class="tagline">"${p.tagline}"</p>
+        <p class="ad-copy">${p.adCopy}</p>
+        <span class="cta-btn">${p.cta}</span>
+      </div>
+      <div id="${uid}-social" class="tab-panel">
+        <div class="caption-list">${captionItems}</div>
+      </div>
+      <div id="${uid}-seo" class="tab-panel">
+        <div class="keyword-list">${keywords}</div>
+      </div>
+      <div id="${uid}-pricing" class="tab-panel">
+        <table class="pricing-table">
+          <tr><th>Tier</th><td><span class="tier-badge ${tierClass}">${p.pricingTier}</span></td></tr>
+          <tr><th>Price</th><td>$${p.price.toFixed(2)}</td></tr>
+          <tr><th>Rationale</th><td>${p.pricingRationale}</td></tr>
+        </table>
+        <div class="promo-note">🏷 ${p.promo}</div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function switchTab(btn, panelId) {
+  const card = btn.closest(".product-card");
+  card.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  card.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById(panelId).classList.add("active");
+}
+
+document.getElementById("productGrid").innerHTML = PRODUCTS.map(buildCard).join("");
+</script>
+</body>
+</html>
