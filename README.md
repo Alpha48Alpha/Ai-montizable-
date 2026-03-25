@@ -95,6 +95,8 @@ Ai-montizable-/
 ├── README.md                          # This file — engine overview
 ├── movie_engine_config.md             # Full behavior rules & system configuration
 ├── movie_engine.py                    # Python production package generator
+├── shoe_demo.py                       # AI-powered shoe product package generator
+├── run.py                             # Unified runner — runs all modules in sequence
 └── templates/
     ├── movie_production_package.md    # Complete 10-section production template
     ├── character_sheet.md             # Per-character continuity template
@@ -116,16 +118,22 @@ For anime-style requests, the engine additionally:
 
 ## Usage
 
-1. Submit any movie/video/anime/cartoon/trailer request.
-2. The engine generates a full production package using the templates in `/templates/`.
-3. Character details from `character_sheet.md` are referenced in every scene to ensure continuity.
-4. Each scene uses `scene_breakdown.md` format with visual prompts and timecodes.
-5. The final package follows `movie_production_package.md` — all 10 sections complete.
+To run all content-generation modules in a single command:
 
-To generate a sample package programmatically:
+```bash
+python run.py
+```
+
+To generate only the movie production package:
 
 ```bash
 python movie_engine.py
+```
+
+To generate only the shoe product packages:
+
+```bash
+python shoe_demo.py
 ```
 
 For detailed behavior rules, see [`movie_engine_config.md`](movie_engine_config.md).
