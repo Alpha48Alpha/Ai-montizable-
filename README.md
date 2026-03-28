@@ -1,132 +1,142 @@
-# Ai-montizable- — Full Animation Movie Engine
+# Alpha48Alpha AI Lab
 
-> **Status: ACTIVE** — All movie, video, anime, cartoon, and trailer requests are
-> treated as full production tasks.
-
----
-
-## What This Engine Enables
-
-With this configuration active, the system automatically creates complete
-movie-production packages containing:
-
-| Output | Description |
-|--------|-------------|
-| 🎬 Movie scripts | Full screenplay with speaker labels and stage directions |
-| 🎥 Animation scene breakdowns | Panel-by-panel storyboard with timecodes |
-| 🎭 Character sheets | Appearance, personality, and arc details for every character |
-| 🖼 Visual generation prompts | Per-scene AI image/video prompts (style, angle, lighting, mood) |
-| 🗣 Subtitle scripts | SRT-style subtitle blocks with timestamps |
-| 🎧 Audio plans | Music, SFX, and voice-over guidance per scene |
-| 🧩 Editing instructions | Assembly order, transitions, and export settings |
-| 📦 Full production packages | All of the above in one structured document |
+> Exploring reinforcement learning, world models, and creative AI systems.
 
 ---
 
-## Required Sections in Every Production Package
+## About
 
-Every generated package includes **all ten sections**:
-
-1. **Title** — Working title and tagline
-2. **Runtime** — Total duration and per-scene time-codes
-3. **Characters** — Cast list with consistent appearance and personality details
-4. **Scene List** — Ordered scenes with locations and moods
-5. **Dialogue** — Complete script with speaker labels
-6. **Subtitles** — SRT-format blocks with timestamps
-7. **Visual Prompts** — AI generation prompts for every scene
-8. **Audio Plan** — Music, SFX, and narration guidance
-9. **Assembly Plan** — Editing order, transitions, export settings
-10. **Deliverables** — Output file list with honest quality labels
+**Alpha48Alpha AI Lab** is an open research playground for building and experimenting
+with AI systems that learn through simulation and interaction. The lab combines
+classical reinforcement learning, modern world-modeling techniques, and creative
+generative AI into a single, accessible codebase.
 
 ---
 
-## Deliverable Quality Labels
+## Research Areas
 
-Generated files are labeled with **exactly one** of the following:
-
-| Label | Meaning |
-|-------|---------|
-| `prototype animation` | Rough motion test; limited frames, placeholder art |
-| `concept clip` | Style/mood exploration; not final designs |
-| `motion video` | Animatic or motion-graphics with basic movement |
-| `slideshow film` | Sequential stills with transitions and audio |
-| `rendered short` | Full frame-by-frame rendered animation |
-
-The engine **never** overclaims — a partial motion asset is never described as a
-full rendered animation.
+| Area | Description |
+|------|-------------|
+| 🤖 **Reinforcement Learning** | Agents that learn optimal behaviour by interacting with environments |
+| 🌍 **World Models** | Learned internal representations that let agents plan without acting in the real world |
+| 🎨 **Generative Models** | Producing novel content — images, video, text — through learned distributions |
+| 🧭 **AI Alignment** | Techniques for keeping agent objectives consistent with human intent |
+| 🏗 **Simulation Environments** | Custom environments for training and evaluating AI agents |
 
 ---
 
-## Example Prompts That Trigger the Full Pipeline
+## Goal
 
-Users can say things like:
-
-- *"Make me an anime about a girl who discovers magic."*
-- *"Create a trailer for my sci-fi movie."*
-- *"Write a cartoon episode about a talking robot."*
-- *"Generate a short film storyboard."*
-- *"Produce a music video concept."*
-- *"Build a 2-minute explainer animation."*
-
-All of the above automatically produce the complete 10-section package.
+Build experimental AI systems that **learn through simulation and interaction** —
+systems that can model their environment, plan ahead, and produce creative outputs.
 
 ---
 
-## Fallback Pipeline
-
-If direct animation generation is unavailable, the engine **always** produces at
-minimum:
-
-1. Screenplay / script
-2. Storyboard (panel descriptions)
-3. Visual prompts for every scene
-4. Subtitle script
-5. Scene timing / time-codes
-6. Edit / assembly plan
-
-The engine **never** returns an empty or unhelpful response for a production request.
-
----
-
-## File Structure
+## Repository Structure
 
 ```
 Ai-montizable-/
-├── README.md                          # This file — engine overview
-├── movie_engine_config.md             # Full behavior rules & system configuration
-├── movie_engine.py                    # Python production package generator
-└── templates/
-    ├── movie_production_package.md    # Complete 10-section production template
-    ├── character_sheet.md             # Per-character continuity template
-    └── scene_breakdown.md             # Per-scene storyboard & panel template
+├── README.md                    # This file — lab overview
+│
+├── ai_lab/                      # Core Python library
+│   ├── environments/            # Simulation environments
+│   │   ├── base_env.py          # Abstract base environment (gym-style)
+│   │   └── grid_world.py        # Simple grid-world for RL experiments
+│   ├── agents/                  # RL agents
+│   │   ├── base_agent.py        # Abstract base agent
+│   │   ├── random_agent.py      # Random baseline agent
+│   │   └── q_agent.py           # Tabular Q-learning agent
+│   └── world_model/             # World-model components
+│       ├── base_model.py        # Abstract world-model interface
+│       └── transition_model.py  # Learned transition / next-state predictor
+│
+├── experiments/
+│   └── run_gridworld.py         # End-to-end RL experiment on the grid world
+│
+└── templates/                   # Creative AI production templates
+    ├── movie_production_package.md
+    ├── character_sheet.md
+    └── scene_breakdown.md
 ```
 
 ---
 
-## Anime-Specific Behavior
+## Quick Start
 
-For anime-style requests, the engine additionally:
+```bash
+# Run the grid-world reinforcement-learning experiment
+python experiments/run_gridworld.py
+```
 
-- Applies consistent anime line-art style tokens to all visual prompts
-- Describes panel composition using cinematic terms (close-up, wide shot, Dutch angle, etc.)
-- Adds an emotional beat note to every scene
-- Maintains a consistent color palette across all character appearances
+The script trains a Q-learning agent on the built-in `GridWorld` environment,
+prints per-episode rewards, and reports final performance.
 
 ---
 
-## Usage
+## Core Concepts
 
-1. Submit any movie/video/anime/cartoon/trailer request.
-2. The engine generates a full production package using the templates in `/templates/`.
-3. Character details from `character_sheet.md` are referenced in every scene to ensure continuity.
-4. Each scene uses `scene_breakdown.md` format with visual prompts and timecodes.
-5. The final package follows `movie_production_package.md` — all 10 sections complete.
+### Environments
 
-To generate a sample package programmatically:
+All environments inherit from `ai_lab.environments.BaseEnv` and expose a
+gym-style interface:
+
+```python
+from ai_lab.environments.grid_world import GridWorld
+
+env = GridWorld(size=5)
+obs = env.reset()
+obs, reward, done, info = env.step(action=0)
+```
+
+### Agents
+
+All agents inherit from `ai_lab.agents.BaseAgent`:
+
+```python
+from ai_lab.agents.q_agent import QAgent
+
+agent = QAgent(n_states=25, n_actions=4, learning_rate=0.1, discount=0.99)
+action = agent.select_action(state=obs)
+agent.update(state=obs, action=action, reward=reward, next_state=next_obs, done=done)
+```
+
+### World Models
+
+World models learn to predict the next state and reward given a current state
+and action, enabling model-based planning without extra environment steps:
+
+```python
+from ai_lab.world_model.transition_model import TransitionModel
+
+model = TransitionModel(n_states=25, n_actions=4)
+model.observe(state, action, next_state, reward)
+predicted_next, predicted_reward = model.predict(state, action)
+```
+
+---
+
+## Creative AI Systems
+
+The repository also includes a full **animation production engine** that applies
+generative AI to creative content — a practical example of generative models in
+action.  See [`movie_engine_config.md`](movie_engine_config.md) and
+[`templates/`](templates/) for details, or generate a sample production package:
 
 ```bash
 python movie_engine.py
 ```
 
-For detailed behavior rules, see [`movie_engine_config.md`](movie_engine_config.md).
+---
+
+## Contributing
+
+Contributions are welcome. Open an issue or pull request to propose new
+environments, agent algorithms, world-model architectures, or alignment
+experiments.
+
+---
+
+## License
+
+MIT
 
