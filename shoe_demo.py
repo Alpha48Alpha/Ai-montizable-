@@ -16,6 +16,12 @@ Run:
 import json
 import textwrap
 
+from monetization import (
+    generate_product_monetization_plan,
+    format_product_monetization_report,
+    get_shoe_copy_hooks,
+)
+
 # ---------------------------------------------------------------------------
 # Shoe data
 # ---------------------------------------------------------------------------
@@ -88,16 +94,18 @@ def generate_product_description(shoe: dict) -> str:
 
 def generate_marketing_copy(shoe: dict) -> dict:
     name = shoe["name"]
-    shoe_type = shoe["type"].lower()
+    shoe_type = shoe["type"]
+    shoe_type_lower = shoe_type.lower()
     top_feature = shoe["features"][0]
     colour = shoe["colours"][0]
+    hooks = get_shoe_copy_hooks(shoe_type_lower)
 
     return {
-        "tagline": f"Step into the future — {name}.",
+        "tagline": f"{name} — {hooks['hook'].capitalize()}.",
         "ad_copy": (
-            f"Introducing the {name} — the ultimate {shoe_type} "
-            f"engineered for those who refuse to slow down. "
-            f"Featuring {top_feature.lower()}, every step feels like flying. "
+            f"Introducing the {name} — the ultimate {shoe_type_lower} "
+            f"{hooks['hook']}. "
+            f"Featuring {top_feature.lower()}, {hooks['benefit']}. "
             f"Now available in {colour} and more."
         ),
         "call_to_action": f"Shop {name} today at ${shoe['price_usd']:.2f} →",
@@ -158,6 +166,7 @@ def build_shoe_package(shoe: dict) -> dict:
         "social_captions": generate_social_captions(shoe),
         "seo_keywords": generate_seo_keywords(shoe),
         "pricing_strategy": generate_pricing_strategy(shoe),
+        "monetization_plan": generate_product_monetization_plan(shoe),
     }
 
 
@@ -193,6 +202,8 @@ def print_package(shoe: dict) -> None:
     print("\n💰  PRICING STRATEGY")
     for line in pkg["pricing_strategy"].splitlines():
         print(f"  {line}")
+
+    print(format_product_monetization_report(pkg["monetization_plan"]))
 
     print()
 

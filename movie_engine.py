@@ -21,6 +21,11 @@ Run:
 import json
 import textwrap
 
+from monetization import (
+    generate_movie_monetization_plan,
+    format_movie_monetization_report,
+)
+
 # ---------------------------------------------------------------------------
 # Sample movie data
 # ---------------------------------------------------------------------------
@@ -178,7 +183,7 @@ def generate_runtime_section(movie: dict) -> str:
     for scene in movie["scenes"]:
         start_sec = _mmss_to_seconds(scene["start"])
         end_sec = _mmss_to_seconds(scene["end"])
-        duration = end_sec - start_sec
+        duration = int(end_sec - start_sec)
         lines.append(
             f"  {scene['number']:<8} {scene['title']:<30} {scene['start']:<8} "
             f"{scene['end']:<8} {duration}s"
@@ -204,14 +209,14 @@ def generate_scene_list_section(movie: dict) -> str:
     lines = [
         section_title("4. SCENE LIST"),
         "",
-        f"  {'#':<5} {'Title':<28} {'Location':<30} {'Time':<10} {'Mood':<20} Characters",
-        f"  {'─'*5} {'─'*28} {'─'*30} {'─'*10} {'─'*20} {'─'*20}",
+        f"  {'#':<5} {'Title':<28} {'Location':<32} {'Time':<22} {'Mood':<22} Characters",
+        f"  {'─'*5} {'─'*28} {'─'*32} {'─'*22} {'─'*22} {'─'*20}",
     ]
     for scene in movie["scenes"]:
         chars = ", ".join(scene["characters_present"])
         lines.append(
-            f"  {scene['number']:<5} {scene['title']:<28} {scene['location'][:28]:<30} "
-            f"{scene['time_of_day'][:8]:<10} {scene['mood'][:18]:<20} {chars}"
+            f"  {scene['number']:<5} {scene['title']:<28} {scene['location']:<32} "
+            f"{scene['time_of_day']:<22} {scene['mood']:<22} {chars}"
         )
     return "\n".join(lines)
 
@@ -344,6 +349,7 @@ def build_movie_package(movie: dict) -> dict:
         "audio_plan": generate_audio_plan_section(movie),
         "assembly_plan": generate_assembly_plan_section(movie),
         "deliverables": generate_deliverables_section(movie),
+        "monetization_plan": generate_movie_monetization_plan(movie),
     }
 
 
@@ -358,8 +364,11 @@ def print_package(movie: dict) -> None:
     print(f"  MOVIE PRODUCTION PACKAGE — {movie['title'].upper()}")
     print(SEPARATOR)
 
-    for section in pkg.values():
-        print(section)
+    for key, section in pkg.items():
+        if key == "monetization_plan":
+            print(format_movie_monetization_report(section))
+        else:
+            print(section)
         print()
 
 
